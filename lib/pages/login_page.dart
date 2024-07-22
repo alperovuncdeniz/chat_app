@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:chat_app/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chat_app/components/my_button.dart';
@@ -15,7 +16,23 @@ class LoginPage extends StatelessWidget {
     required this.onTap,
   });
 
-  void login() {}
+  void login(BuildContext context) async {
+    final authService = AuthService();
+
+    try {
+      await authService.signInWithEmailPassword(
+        _emailController.text,
+        _passwordController.text,
+      );
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(e.toString()),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +70,7 @@ class LoginPage extends StatelessWidget {
             const SizedBox(height: 25),
             MyButton(
               text: "Login",
-              onTap: login,
+              onTap: () => login(context),
             ),
             const SizedBox(height: 25),
             Row(
