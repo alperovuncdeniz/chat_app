@@ -31,6 +31,7 @@ class HomePage extends StatelessWidget {
         ],
       ),
       drawer: MyDrawer(),
+      body: _buildUserList(),
     );
   }
 
@@ -64,7 +65,9 @@ class HomePage extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const ChatPage(),
+            builder: (context) => ChatPage(
+              receiverEmail: userData["email"],
+            ),
           ),
         );
       },

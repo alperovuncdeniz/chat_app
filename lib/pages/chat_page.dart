@@ -1,10 +1,22 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatelessWidget {
-  const ChatPage({super.key});
+  final String receiverEmail;
+  const ChatPage({
+    super.key,
+    required this.receiverEmail,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          receiverEmail,
+        ),
+        centerTitle: true,
+      ),
+    );
   }
 }
