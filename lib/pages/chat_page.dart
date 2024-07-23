@@ -43,6 +43,11 @@ class _ChatPageState extends State<ChatPage> {
         }
       },
     );
+
+    Future.delayed(
+      const Duration(milliseconds: 500),
+      () => scrollDown(),
+    );
   }
 
   @override
@@ -69,6 +74,7 @@ class _ChatPageState extends State<ChatPage> {
 
       _messageController.clear();
     }
+    scrollDown();
   }
 
   @override
@@ -143,7 +149,7 @@ class _ChatPageState extends State<ChatPage> {
 
   Widget _buildUserInput() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 50),
+      padding: const EdgeInsets.only(top: 10, bottom: 35),
       child: Row(
         children: [
           Expanded(
