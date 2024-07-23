@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:chat_app/auth/auth_service.dart';
+import 'package:chat_app/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chat_app/components/my_button.dart';
