@@ -77,13 +77,73 @@ class _ChatPageState extends State<ChatPage> {
     scrollDown();
   }
 
+  void _showOptions(BuildContext context, String userId) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SafeArea(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.block),
+                title: const Text("Block User"),
+                onTap: () {
+                  Navigator.pop(context);
+                  _blocUser(context, userId);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.cancel),
+                title: const Text("Cancel"),
+                onTap: () => Navigator.pop(context),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _blocUser(BuildContext context, String userId) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Block User"),
+        content: const Text("Are you sure you want to block this user?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              ChatService().blockUser(userId);
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("User Blocked!"),
+                ),
+              );
+            },
+            child: const Text("Block"),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: Text(
-          widget.receiverEmail,
+        title: GestureDetector(
+          onLongPress: () {
+            _showOptions(context, widget.receiverID);
+          },
+          child: Text(
+            widget.receiverEmail,
+          ),
         ),
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.grey,
@@ -103,6 +163,7 @@ class _ChatPageState extends State<ChatPage> {
 
   Widget _buildMessageList() {
     String senderID = _authService.getCurrentUser()!.uid;
+
     return StreamBuilder(
       stream: _chatService.getMessages(widget.receiverID, senderID),
       builder: (context, snapshot) {
