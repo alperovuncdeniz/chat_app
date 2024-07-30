@@ -83,12 +83,14 @@ class ChatService extends ChangeNotifier {
         .snapshots();
   }
 
-  Future<void> reportUser(String messageId, String userId) async {
+  Future<void> reportUser(
+      String messageId, String userId, String message) async {
     final currentUser = _auth.currentUser;
     final report = {
       "reportedBy": currentUser!.uid,
       "messageId": messageId,
       "messageOwnerId": userId,
+      "message": message,
       "timestamp": FieldValue.serverTimestamp(),
     };
 
